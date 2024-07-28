@@ -17,11 +17,11 @@ from decouple import config # デプロイ用
 from dj_database_url import parse as dburl # デプロイ用
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # //環境変数//
 env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, ".env"))
+env.read_env(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # //本番環境//
-default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
+default_dburl = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
 DATABASES = {
     "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
 }
@@ -135,15 +135,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'static',
 ]
 
 # //本番環境//
-STATIC_ROOT = str(BASE_DIR / "staticfiles")
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -154,5 +154,5 @@ LOGIN_REDIRECT_URL = '/equipment/'  # ログイン後のリダイレクト先
 LOGOUT_REDIRECT_URL = '/'  # ログアウト後のリダイレクト先
 
 LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
+    BASE_DIR / 'locale',
 )
