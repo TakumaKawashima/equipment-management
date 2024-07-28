@@ -1,0 +1,33 @@
+<!-- order_history.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}発注履歴{% endblock %}
+
+{% block content %}
+<h1 class="center-text">発注履歴</h1>
+<table class="center-text">
+  <thead>
+    <tr>
+      <th>発注日</th>
+      <th>備品名</th>
+      <th>数量</th>
+      <th>ステータス</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.request_date }}</td>
+      <td>{{ order.equipment.name }}</td>
+      <td>{{ order.quantity_requested }}</td>
+      <td>
+        <span class="{% if order.status == 'Approved' %}status-approved{% else %}status-pending{% endif %}">
+          {{ order.get_status_display }}
+        </span>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

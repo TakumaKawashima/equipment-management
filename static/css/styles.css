@@ -34,6 +34,9 @@ nav {
   margin: 0 10px;
 }
 
+.nav-left {
+  display: flex;
+}
 .nav-right {
   display: flex;
 }
@@ -192,4 +195,39 @@ tbody tr:hover {
   display: flex;
   justify-content: center;
   margin: 70px;
+}
+
+.status-approved {
+    color: green;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.status-pending {
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.order-item {
+  margin-bottom: 10px;
+}
+
+.order-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 横中央揃え */
+}
+
+.order-item-content p {
+  margin: 0;
+  margin-right: 10px;
+  /* ステータスとボタンの間にスペースを追加 */
+}
+
+.approve-form {
+  margin: 0;
 }

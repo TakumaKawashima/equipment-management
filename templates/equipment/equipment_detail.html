@@ -3,17 +3,16 @@
 {% block title %}{{ equipment.name }}{% endblock %}
 
 {% block content %}
-<div class="header-banner center-text"> <!-- クラスを追加 -->
+<div class="header-banner center-text">
   <div class="equipment-title-container">
-    <h1 class="center-text">{{ equipment.name }}</h1> <!-- クラスを追加 -->
+    <h1 class="center-text">{{ equipment.name }}</h1>
     {% if user.is_superuser %}
     <a href="{% url 'edit_equipment' equipment.pk %}" class="btn">編集</a>
     {% endif %}
   </div>
 </div>
 <div class="center-text">
-  <img src="{{ equipment.image.url }}" alt="{{ equipment.name }}"
-    style="max-width: 300px; margin-top: 20px;">
+  <img src="{{ equipment.image.url }}" alt="{{ equipment.name }}" style="max-width: 300px; margin-top: 20px;">
   <p>{{ equipment.description }}</p>
   <p>カテゴリ: {{ equipment.category }}</p>
   <p>状態: {{ equipment.status }}</p>
@@ -39,4 +38,39 @@
   <li>{{ change.timestamp }} - {{ change.user.username }}: {{ change.new_quantity }} に変更</li>
   {% endfor %}
 </ul>
+
+<h2 class="center-text">発注依頼</h2>
+<form method="post" class="order-request-form center-text">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ order_form.quantity_requested.label_tag }}
+    {{ order_form.quantity_requested }}
+  </div>
+  <button type="submit" class="btn">発注依頼</button>
+</form>
+
+{% if user.is_superuser %}
+<h2 class="center-text">発注依頼の承認</h2>
+<ul class="center-text">
+  {% for order in order_requests %}
+  <li class="order-item">
+    <div class="order-item-content">
+      <p>{{ order.request_date }} - {{ order.user.username }}: {{ order.quantity_requested }} -
+        <span class="{% if order.status == 'Approved' %}status-approved{% else %}status-pending{% endif %}">
+          {{ order.get_status_display }}
+        </span>
+      </p>
+      {% if not order.approved %}
+      <form method="post" class="approve-form">
+        {% csrf_token %}
+        <input type="hidden" name="approve_order_request" value="{{ order.id }}">
+        <button type="submit" class="btn">承認</button>
+      </form>
+      {% endif %}
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
 {% endblock %}

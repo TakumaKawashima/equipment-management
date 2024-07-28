@@ -22,3 +22,16 @@ class InventoryChange(models.Model):
 
     def __str__(self):
         return f"{self.timestamp.strftime('%Y年%m月%d日%H:%M')} - {self.user.username}: {self.new_quantity} に変更"
+
+class OrderRequest(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', '承認待ち'),
+        ('Approved', '承認済み')
+    ]
+
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity_requested = models.IntegerField()
+    request_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Pending')
+    approved = models.BooleanField(default=False)
