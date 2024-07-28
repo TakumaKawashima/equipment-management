@@ -1,5 +1,5 @@
 from django import forms
-from .models import Equipment
+from .models import Equipment, OrderRequest
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -57,3 +57,16 @@ class UserEditForm(forms.ModelForm):
             'is_staff': 'スタッフ',
             'is_superuser': '管理者',
         }
+
+class OrderRequestForm(forms.ModelForm):
+    class Meta:
+        model = OrderRequest
+        fields = ['quantity_requested']
+        labels = {
+            'quantity_requested': '発注数'
+        }
+
+class OrderRequestApprovalForm(forms.ModelForm):
+    class Meta:
+        model = OrderRequest
+        fields = ['approved']
