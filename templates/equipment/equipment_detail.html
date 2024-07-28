@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ equipment.name }}{% endblock %}
+
+{% block content %}
+<div class="header-banner center-text"> <!-- クラスを追加 -->
+  <div class="equipment-title-container">
+    <h1 class="center-text">{{ equipment.name }}</h1> <!-- クラスを追加 -->
+    {% if user.is_superuser %}
+    <a href="{% url 'edit_equipment' equipment.pk %}" class="btn">編集</a>
+    {% endif %}
+  </div>
+</div>
+<div class="center-text">
+  <img src="{{ equipment.image.url }}" alt="{{ equipment.name }}"
+    style="max-width: 300px; display: block; margin: 0 auto;">
+  <p>{{ equipment.description }}</p>
+  <p>カテゴリ: {{ equipment.category }}</p>
+  <p>状態: {{ equipment.status }}</p>
+  <p>設置場所: {{ equipment.location }}</p>
+  <p>在庫数: {{ equipment.quantity }}</p>
+</div>
+
+{% if user.is_superuser %}
+<h2 class="center-text">在庫数を変更</h2>
+<form method="post" class="quantity-change-container center-text">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form.quantity.label_tag }}
+    {{ form.quantity }}
+  </div>
+  <button type="submit" class="btn">保存</button>
+</form>
+{% endif %}
+
+<h2 class="center-text">在庫数の変更履歴</h2>
+<ul class="center-text">
+  {% for change in changes %}
+  <li>{{ change.timestamp }} - {{ change.user.username }}: {{ change.new_quantity }} に変更</li>
+  {% endfor %}
+</ul>
+{% endblock %}

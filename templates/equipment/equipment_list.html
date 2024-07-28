@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}備品一覧{% endblock %}
+
+{% block content %}
+<div class="header-banner">
+  <h1>備品一覧</h1>
+</div>
+<div class="btn-container">
+  <a href="{% url 'add_equipment' %}" class="btn">備品を追加</a>
+</div>
+<div class="equipment-list">
+  <div class="equipment-item">
+    <div><strong>名前</strong></div>
+    <div><strong>カテゴリ</strong></div>
+    <div><strong>設置場所</strong></div>
+    <div><strong>在庫数</strong></div>
+  </div>
+  {% for equipment in equipments %}
+  <div class="equipment-item">
+    <div><a href="{% url 'equipment_detail' equipment.pk %}">{{ equipment.name }}</a></div>
+    <div>{{ equipment.category }}</div>
+    <div>{{ equipment.location }}</div>
+    <div>在庫数: {{ equipment.quantity }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

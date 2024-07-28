@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}ユーザー一覧{% endblock %}
+
+{% block content %}
+<h1>ユーザー一覧</h1>
+<table>
+  <thead>
+    <tr>
+      <th>ユーザー名</th>
+      <th>メールアドレス</th>
+      <th>スタッフ</th>
+      <th>管理者</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.is_staff }}</td>
+      <td>{{ user.is_superuser }}</td>
+      <td>
+        <a href="{% url 'edit_user' user.pk %}">編集</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
