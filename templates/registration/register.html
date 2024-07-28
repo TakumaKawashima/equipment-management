@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-  <title>ユーザー登録</title>
-</head>
+{% block title %}ユーザー新規登録{% endblock %}
 
+{% block content %}
 <body>
-  <h1>ユーザー登録</h1>
+  <h1>ユーザー新規登録</h1>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">登録</button>
+    <button type="submit" class="btn">登録</button>
   </form>
 </body>
-
-</html>
+{% endblock %}
