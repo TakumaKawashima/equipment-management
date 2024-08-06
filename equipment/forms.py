@@ -18,6 +18,10 @@ class EquipmentForm(forms.ModelForm):
             'quantity': '在庫数',
         }
 
+    def __init__(self, *args, **kwargs):
+        super(EquipmentForm, self).__init__(*args, **kwargs)
+        self.fields['image'].required = True
+
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, label='メールアドレス')
     is_staff = forms.BooleanField(required=False, label='スタッフとして登録する')
